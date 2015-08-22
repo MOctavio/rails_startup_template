@@ -8,6 +8,8 @@ gem 'pg'
 gem 'sass-rails', '~> 5.0'
 # Useful SASS mixins (http://bourbon.io/)
 gem "bourbon"
+# HAML templating language (http://haml.info)
+gem "haml-rails"
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
