@@ -1,44 +1,64 @@
-# Ruby version for Heroku
-ruby "2.2.0"
-# For encrypted password
-gem "bcrypt-ruby"
-# For authorization (https://github.com/ryanb/cancan)
-gem "cancan"
-# CSS made fun! (http://sass-lang.com/)
-gem 'sass'
+source 'https://rubygems.org'
+
+# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
+gem 'rails', '4.2.3'
+# Use PostgreSQL as the database for Active Record
+gem 'pg'
+# Use SCSS for stylesheets
+gem 'sass-rails', '~> 5.0'
 # Useful SASS mixins (http://bourbon.io/)
 gem "bourbon"
-# HAML templating language (http://haml.info)
-gem "haml-rails"
+# Use Uglifier as compressor for JavaScript assets
+gem 'uglifier', '>= 1.3.0'
+# Use CoffeeScript for .coffee assets and views
+gem 'coffee-rails', '~> 4.1.0'
 # Font-Awesome Sass gem (https://github.com/FortAwesome/font-awesome-sass)
 gem 'font-awesome-rails'
 # Simple form builder (https://github.com/plataformatec/simple_form)
 gem "simple_form", git: "https://github.com/plataformatec/simple_form"
-# Pg is the Ruby interface to the PostgreSQL RDBMS (http://www.postgresql.org/)
-gem 'pg'
-gem_group :development do
-  # Rspec for tests (https://github.com/rspec/rspec-rails)
-  gem "rspec-rails"
-  # Guard for automatically launching your specs when files are modified. (https://github.com/guard/guard-rspec)
-  gem "guard-rspec"
+# For authorization (https://github.com/ryanb/cancan)
+gem "cancan"
+# Use jquery as the JavaScript library
+gem 'jquery-rails'
+# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
+gem 'turbolinks'
+# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
+gem 'jbuilder', '~> 2.0'
+# bundle exec rake doc:rails generates the API under doc/api.
+gem 'sdoc', '~> 0.4.0', group: :doc
+# Use ActiveModel has_secure_password
+gem 'bcrypt', '~> 3.1.7'
+
+# Use Unicorn as the app server
+# gem 'unicorn'
+
+# Use Capistrano for deployment
+# gem 'capistrano-rails', group: :development
+
+# See https://github.com/rails/execjs#readme for more supported runtimes
+# gem 'therubyracer', platforms: :ruby
+
+# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
+gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+group :development do
+  gem 'rspec-rails'
+  gem 'guard-rspec'
 end
-gem_group :test do
-  gem "rspec-rails"
-  # Capybara for integration testing (https://github.com/jnicklas/capybara)
-  gem "capybara"
-  gem "capybara-webkit"
-  gem "launchy"
-  # FactoryGirl instead of Rails fixtures (https://github.com/thoughtbot/factory_girl)
-  gem "factory_girl_rails"
-  gem "database_cleaner"
+
+group :test do
+  gem 'launchy'
+  gem 'factory_girl_rails'
+  gem 'database_cleaner'
 end
-gem_group :production do
+
+group :production do
   # For Rails 4 deployment on Heroku
-  gem "rails_12factor"
+  gem 'rails_12factor'
 end
-# Initialize guard
-# ==================================================
-run "bundle exec guard init rspec"
+
+run "bundle install"
+
 # Initialize CanCan
 # ==================================================
 run "rails g cancan:ability"
@@ -63,16 +83,4 @@ EOF"
 # ==================================================
 git :init
 git add: "."
-git commit: %Q{ -m 'Initial commit' }
-if yes?("Initialize GitHub repository?")
-  git_uri = `git config remote.origin.url`.strip
-  unless git_uri.size == 0
-    say "Repository already exists:"
-    say "#{git_uri}"
-  else
-    username = ask "What is your GitHub username?"
-    run "curl -u #{username} -d '{\"name\":\"#{app_name}\"}' https://api.github.com/user/repos"
-    git remote: %Q{ add origin git@github.com:#{username}/#{app_name}.git }
-    git push: %Q{ origin master }
-  end
-end
+git commit: %Q{ -m "Initial commit" }
